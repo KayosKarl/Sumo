@@ -1,0 +1,122 @@
+import discord
+from discord.ext.commands import Bot
+from discord.ext import commands
+import asyncio
+import time
+import random
+
+Client = discord.Client()
+client = commands.Bot(command_prefix = "!")
+client.remove_command('help')
+
+
+        
+    
+@client.event
+async def on_ready():
+        try:
+                print(client.user.name)
+                print('is ready')
+                print(client.user.id)
+                print('Discord.py Version: {}'.format(discord.__version__))
+                await client.change_presence(game=discord.Game(name='!help'))
+        except Exception as e:
+                print(e)
+
+
+
+
+@client.event
+async def on_message(message):
+    await client.process_commands(message)
+    if message.content.upper().startswith('!PING'):
+        userID = message.author.id
+        await client.send_message(message.channel, "<@%s> Pong!" % (userID))
+    if message.content.upper().startswith('!SAY'):
+        if message.author.server_permissions.administrator:
+            args = message.content.split(" ")
+            await client.send_message(message.channel, "%s" % (" ".join(args[1:])))
+        else:
+            await client.send_message(message.channel, "You do not have permission")
+    if message.content.upper().startswith('!AMIADMIN'):
+        if message.author.server_permissions.administrator: 
+            await client.send_message(message.channel, "You are an admin")
+        else:
+            await client.send_message(message.channel, "You are not an admin")
+    if message.content.upper().startswith('!COOKIE'):
+        userID = message.author.id
+        await client.send_message(message.channel, "<@%s> Heres your cookie! :cookie:" % (userID))
+    if message.content.upper().startswith('!SEAL'):
+        userID = message.author.id
+        await client.send_message(message.channel, "<@%s> https://www.youtube.com/watch?v=Lmw4lzjEqD8" % (userID))
+    if message.content.upper().startswith('!OWNER'):
+        userID = message.author.id
+        if message.author.server_permissions.administrator: 
+            await client.send_message(message.channel,"<@%s> This Bot is made by **Kayos Karl**" % (userID))
+    if message.content.upper().startswith('!INVITE'):
+        userID = message.author.id
+        await client.send_message(message.author,"<@%s> Here is a link to invite me To Your Server! https://discordapp.com/api/oauth2/authorize?client_id=489822581579317258&permissions=8&scope=bot" % (userID))
+    if message.content.upper().startswith('!PETER'):
+        userID = message.author.id
+        await client.send_message(message.channel, "https://imgur.com/CUKMWVi")
+    if message.content.upper().startswith('!8BALL'):
+        userID = message.author.id
+        await client.send_message(message.channel, random.choice (["It is certain :8ball:",
+                                                                   "It is decidedly so :8ball:",
+                                                                   "Without a doubt :8ball:",
+                                                                   "Yes, definitely :8ball:",
+                                                                   "You may rely on it :8ball:",
+                                                                   "As I see it, yes :8ball:",
+                                                                   "Most likely :8ball:",
+                                                                   "Outlook good :8ball:",
+                                                                   "Yes :8ball:",
+                                                                   "Signs point to yes :8ball:",
+                                                                   "Reply hazy try again :8ball:",
+                                                                   "Ask again later :8ball:",
+                                                                   "Better not tell you now :8ball:",
+                                                                   "Cannot predict now :8ball:",
+                                                                   "Concentrate and ask again :8ball:",
+                                                                   "Don't count on it :8ball:",
+                                                                   "My reply is no :8ball:",
+                                                                   "My sources say no :8ball:",
+                                                                   "Outlook not so good :8ball:",
+                                                                   "Very doubtful :8ball:"]))
+
+
+ 
+    
+@client.command(pass_context=True)
+async def kick(ctx, member:discord.Member):
+    if ctx.message.author.server_permissions.administrator:
+        try:
+            await client.kick(member)
+            await client.say("*snap!* Yes Sir, Thats how the Mafia works.")
+        except discord.errors.Forbidden:
+            await client.say("Sorry somethings not right")
+    else:
+        await client.say("No way, your not an Admin")
+
+@client.command(pass_context=True)
+async def ban(ctx, member:discord.Member):
+    if ctx.message.author.server_permissions.administrator:
+        try:
+            await client.ban(member)
+            await client.say("*snap!* Yes Sir, Thats how the Mafia works") 
+        except discord.errors.Forbidden:
+            await client.say("Sorry somethings not right")
+    else:
+        await client.say("No way, your not an Admin")
+
+
+
+    
+
+    
+
+    await client.send_message(author, embed=embed)
+
+
+
+    
+
+client.run("NDg5ODIyNTgxNTc5MzE3MjU4.Dxy0NQ.S6TnVgJoG0heaNsU6KRDZizPC6E")
